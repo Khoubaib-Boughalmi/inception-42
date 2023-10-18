@@ -2,7 +2,8 @@
 
 ## What is a Docker Image?
 
-A Docker image is a stand-alone executable package that contains all the necessary dependencies (code, packages, runtime, system tools, etc.) to create a Docker container—an isolated, portable environment that can run applications consistently across different environments. Docker images are built in a layered structure, where each layer is responsible for a specific change to the image.
+- A Docker image is a stand-alone executable package that contains all the necessary dependencies (code, packages, runtime, system tools, etc.) to create
+- A Docker container is an isolated, portable environment that can run applications consistently across different environments. Docker images are built in a layered structure, where each layer is responsible for a specific change to the image.
 
 These layered structures are a collection of file system layers (OS) along with source code, dependencies, metadata, and configuration files. Here is a breakdown of a web application Docker image:
 
