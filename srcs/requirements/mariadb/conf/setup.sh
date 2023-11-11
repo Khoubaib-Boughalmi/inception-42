@@ -1,32 +1,20 @@
-#!/bin/bash
+# export SQL_DATABASE=inception
+# export SQL_USER=inception_user
+# export SQL_PASSWORD=inception_pass
+# export SQL_ROOT_PASSWORD=rootpass
+#!/bin/sh
 
-export SQL_DATABASE=inception
-export SQL_USER=inception_user
-export SQL_PASSWORD=inception_pass
-export SQL_ROOT_PASSWORD=rootpass
+if [ -d  "/var/lib/mysql/${SQL_DATABASE}" ]
+then 
+    echo "exist"
+else
 
-#start my sql service
-service mysql start;
-
-# Add a delay to ensure the MySQL service is fully started
-sleep 5
-
-mysql -e "CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;"
-
-mysql -e "CREATE USER IF NOT EXISTS \`${SQL_USER}\`@'localhost' IDENTIFIED BY '${SQL_PASSWORD}';"
-
-mysql -e "GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO \`${SQL_USER}\`@'%' IDENTIFIED BY '${SQL_PASSWORD}';"
-
-mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';"
-
-# relode DB
-mysql -e "FLUSH PRIVILEGES;"
-
-# restart mysql so that changes get applied
-mysqladmin -u root -p $SQL_ROOT_PASSWORD shutdown
-
-exec mysqld_safe
-
-
-
-
+    echo "FLUSH PRIVILEGES;" >> /tmp/db.sql
+    echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';" >> /tmp/db.sql
+    echo "CREATE DATABASE ${SQL_DATABASE};" >> /tmp/db.sql
+    echo "CREATE USER '${SQL_USER}'@'%' IDENTIFIED BY '${SQL_PASSWORD}';" >> /tmp/db.sql
+    echo "GRANT ALL PRIVILEGES ON *.* TO '${SQL_USER}'@'%' WITH GRANT OPTION;" >> /tmp/db.sql
+    echo "FLUSH PRIVILEGES;" >> /tmp/db.sql
+    mariadbd --user=mysql --bootstrap < /tmp/db.sql
+fi
+exec "$@"

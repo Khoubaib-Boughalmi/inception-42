@@ -1,13 +1,13 @@
-FROM	debian:bullseye
+FROM  debian:bookworm
+ 
+RUN apt update -y  && apt install mariadb-server -y
 
-RUN	apt update -y && apt upgrade -y
+RUN mkdir -p /run/mysqld && chmod 777 /run/mysqld
 
-RUN	apt install mariadb-server -y
+RUN mariadb-install-db --user=mysql --datadir=/var/lib/mysql 
 
-COPY	conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+COPY ./conf/setup.sh /
 
-COPY    conf/setup.sh /setup.sh
+ENTRYPOINT ["sh", "setup.sh"]
 
-ENTRYPOINT ["bash", "setup.sh"]
-
-EXPOSE 3306
+CMD ["mariadbd", "--user=mysql", "--bind-address=0.0.0.0"]  

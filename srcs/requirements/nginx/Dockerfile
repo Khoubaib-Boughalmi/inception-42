@@ -1,4 +1,4 @@
-FROM	debian:latest
+FROM  debian:bookworm
 
 RUN	apt-get update -y
 RUN	apt install nginx -y
@@ -19,6 +19,6 @@ COPY	conf/ssl.conf /etc/nginx/conf.d/ssl.conf
 RUN	chmod 755 /var/www/html
 RUN	chown -R www-data:www-data /var/www/html
 
-COPY	conf/html/index.html /var/www/html
+# COPY	conf/html/index.html /var/www/html
 
 CMD [ "nginx", "-g", "daemon off;" ]

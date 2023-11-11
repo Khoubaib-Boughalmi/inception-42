@@ -1,14 +1,13 @@
-FROM    debian:bullseye
+FROM  debian:bookworm
 
-RUN     apt update -y && apt upgrade -y
+RUN apt update -y && apt upgrade -y &&\
+    apt install -y  php-fpm  php-mysql curl mariadb-client sendmail \
+    && sed -i "s|listen = /run/php/php8.2-fpm.sock|listen = 0.0.0.0:9000|g" /etc/php/8.2/fpm/pool.d/www.conf
 
-RUN     apt-get -y install wget
+COPY ./conf/setup.sh /
 
-RUN     apt-get install -y php7.3 php-fpm php-mysq mariadb-client
+RUN mkdir -p /run/php/
 
+ENTRYPOINT ["sh", "setup.sh"]
 
-RUN     wget https://fr.wordpress.org/wordpress-6.3-fr_FR.tar.gz -P /var/www
-
-RUN     cd /var/www && tar -xzf wordpress-6.3-fr_FR.tar.gz && rm wordpress-6.0-fr_FR.tar.gz
-
-RUN		chown -R root:root /var/www/wordpress
+CMD ["php-fpm8.2", "-F"]
