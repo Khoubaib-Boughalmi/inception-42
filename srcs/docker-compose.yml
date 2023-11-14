@@ -59,13 +59,13 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: ${PWD}/requirements/wordpress2
+      device: /home/kboughal/data/mariadb2
   mariadb:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: ${PWD}/requirements/mariadb2
+      device: /home/kboughal/data/wordpress2
 
 #network part
 networks:

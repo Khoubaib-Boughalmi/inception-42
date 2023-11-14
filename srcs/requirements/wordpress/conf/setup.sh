@@ -1,17 +1,5 @@
 #!/bin/sh
 
-#sql configuration
-# SQL_DATABASE=inception
-# SQL_USER=inception_user
-# SQL_PASSWORD=inception_pass
-# SQL_ROOT_PASSWORD=rootpass
-
-#wordpress configuration
-# SITE_TITLE=inception
-# ADMIN_USER=Admin
-# ADMIN_PASSWORD=Admin_pass
-# ADMIN_EMAIL=Admin@gmail.com
-
 if [ -f "/var/www/wordpress/wp-config.php" ]
 then 
     echo "exist"
@@ -33,7 +21,10 @@ WPCLI config create --allow-root --dbname=${SQL_DATABASE} --dbuser=${SQL_USER} -
 
 WPCLI core install --url=${WORDPRESS_URL} --title=${SITE_TITLE} --admin_user=${ADMIN_USER} --admin_password=${ADMIN_PASSWORD} --admin_email=${ADMIN_EMAIL} --allow-root
 
-# WPCLI user create ${WORDPRESS_USER_NAME} ${WORDPRESS_USER_EMAIL} --role=author  --user_pass=${WORDPRESS_USER_PASSWORD} --path=/var/www/wordpress --allow-root
+WPCLI user create ${SECOND_USER_LOGIN} ${SECOND_USER_MAIL} --role=author  --user_pass=${SECOND_USER_PASS} --path=/var/www/wordpress --allow-root
+
+chmod -R 755 /var/www/wordpress/
+chown -R www-data:www-data /var/www/wordpress/
 
 fi
 

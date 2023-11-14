@@ -1,7 +1,3 @@
-# export SQL_DATABASE=inception
-# export SQL_USER=inception_user
-# export SQL_PASSWORD=inception_pass
-# export SQL_ROOT_PASSWORD=rootpass
 #!/bin/sh
 
 if [ -d  "/var/lib/mysql/${SQL_DATABASE}" ]

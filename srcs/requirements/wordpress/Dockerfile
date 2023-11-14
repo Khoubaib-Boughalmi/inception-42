@@ -1,4 +1,4 @@
-FROM  debian:bookworm
+FROM  debian:bookworm   
 
 RUN apt update -y && apt upgrade -y &&\
     apt install -y  php-fpm  php-mysql curl mariadb-client sendmail \
